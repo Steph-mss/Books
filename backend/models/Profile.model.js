@@ -1,24 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
   userId: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  bio: {
     type: String,
-    default: ''
+    required: true,
+    unique: true,
   },
-  readingHistory: [
+  preferences: {
+    type: [String],
+    default: [],
+  },
+  history: [
     {
-      bookId: Number,
-      readDate: {
-        type: Date,
-        default: Date.now
-      }
-    }
-  ]
+      book: { type: String, required: true },
+      rating: { type: Number, default: 0 },
+    },
+  ],
 });
 
-module.exports = mongoose.model('Profile', ProfileSchema);
+module.exports = mongoose.model("Profile", ProfileSchema);

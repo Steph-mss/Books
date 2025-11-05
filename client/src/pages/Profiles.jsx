@@ -7,7 +7,6 @@ function Profiles() {
   const [selectedUserId, setSelectedUserId] = useState("");
   const [profile, setProfile] = useState(null);
 
-  // Charger la liste des utilisateurs au montage
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -40,11 +39,9 @@ function Profiles() {
 
   const createProfile = async (profileData) => {
     try {
-      await API.post("/profiles", profileData);
+      await API.post("/profiles", { ...profileData, userId: selectedUserId });
       alert("Profil créé avec succès !");
-      if (parseInt(profileData.userId) === parseInt(selectedUserId)) {
-        fetchProfile(selectedUserId);
-      }
+      fetchProfile(selectedUserId);
     } catch (error) {
       console.error("Erreur lors de la création du profil :", error);
       alert("Erreur lors de la création du profil.");
@@ -82,15 +79,21 @@ function Profiles() {
         {profile && (
           <div>
             <h3>
-              Profil de {users.find((u) => u.id === profile.userId)?.name}
+              Profil de {users.find((u) => u.id === profile._id)?.name}
             </h3>
             <p>
-              <strong>Bio :</strong> {profile.bio}
+              <strong>Préférences :</strong> {profile.preferences.join(", ")}
             </p>
-            <p>
-              <strong>Historique de lecture :</strong>{" "}
-              {JSON.stringify(profile.readingHistory)}
-            </p>
+            <div>
+              <strong>Historique de lecture :</strong>
+              <ul>
+                {profile.history.map((item) => (
+                  <li key={item.book}>
+                    {item.book} (lu {item.rating} fois)
+                  </li>
+                ))}
+              </ul>
+            </div>
             <hr />
             <h3>Mettre à jour le profil</h3>
             <FormProfile
@@ -110,11 +113,6 @@ function Profiles() {
             />
           </div>
         )}
-      </div>
-
-      <div className="card">
-        <h2>Créer un nouveau profil manuellement</h2>
-        <FormProfile onSubmit={createProfile} />
       </div>
     </div>
   );
