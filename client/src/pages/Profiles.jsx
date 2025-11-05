@@ -60,10 +60,10 @@ function Profiles() {
   };
 
   return (
-    <div>
-      <h1 className="page-title">Profiles</h1>
+    <div className="profile-page">
+      <h1 className="page-title">Profils</h1>
 
-      <div className="card">
+      <div className="card profile-selection">
         <h2>Sélectionner un utilisateur</h2>
         <div className="form-group">
           <select onChange={handleUserChange} value={selectedUserId}>
@@ -75,45 +75,53 @@ function Profiles() {
             ))}
           </select>
         </div>
+      </div>
 
-        {profile && (
-          <div>
-            <h3>
-              Profil de {users.find((u) => u.id === profile._id)?.name}
-            </h3>
-            <p>
-              <strong>Préférences :</strong> {profile.preferences.join(", ")}
-            </p>
+      {profile && (
+        <div className="card">
+          <div className="profile-details">
+            <h3>Profil de {users.find((u) => u.id === profile._id)?.name}</h3>
             <div>
-              <strong>Historique de lecture :</strong>
-              <ul>
-                {profile.history.map((item) => (
-                  <li key={item.book}>
-                    {item.book} (lu {item.rating} fois)
+              <h4>Préférences</h4>
+              <ul className="preferences-list">
+                {profile.preferences.map((item) => (
+                  <li key={item} className="preference-item">
+                    {item}
                   </li>
                 ))}
               </ul>
             </div>
-            <hr />
-            <h3>Mettre à jour le profil</h3>
-            <FormProfile
-              onSubmit={(data) => updateProfile(selectedUserId, data)}
-              initialData={profile}
-            />
+            <div>
+              <h4>Historique de lecture</h4>
+              <ul className="history-list">
+                {profile.history.map((item) => (
+                  <li key={item.book} className="history-item">
+                    <span>{item.book}</span>
+                    <span>{item.rating} fois</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        )}
+          <hr />
+          <h3>Mettre à jour le profil</h3>
+          <FormProfile
+            onSubmit={(data) => updateProfile(selectedUserId, data)}
+            initialData={profile}
+          />
+        </div>
+      )}
 
-        {!profile && selectedUserId && (
-          <div>
-            <p>Aucun profil trouvé pour cet utilisateur.</p>
-            <h3>Créer un profil</h3>
-            <FormProfile
-              onSubmit={createProfile}
-              initialData={{ userId: selectedUserId }}
-            />
-          </div>
-        )}
-      </div>
+      {!profile && selectedUserId && (
+        <div className="card">
+          <p>Aucun profil trouvé pour cet utilisateur.</p>
+          <h3>Créer un profil</h3>
+          <FormProfile
+            onSubmit={createProfile}
+            initialData={{ userId: selectedUserId }}
+          />
+        </div>
+      )}
     </div>
   );
 }

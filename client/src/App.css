@@ -23,12 +23,151 @@
 }
 
 .app-nav a:hover {
+
   color: #007bff;
+
 }
 
+
+
 .page-title {
+
   text-align: center;
+
   margin-bottom: 2rem;
+
   font-size: 2.5rem;
+
   color: #333;
+
+}
+
+
+
+/* Profile Page Styles */
+
+.profile-page {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2rem;
+
+}
+
+
+
+.profile-selection .form-group {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+}
+
+
+
+.profile-details {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 2rem;
+
+}
+
+
+
+.profile-details h3 {
+
+  grid-column: 1 / -1; /* Span across both columns */
+
+}
+
+
+
+.preferences-list,
+
+.history-list {
+
+  list-style: none;
+
+  padding: 0;
+
+}
+
+
+
+.preference-item {
+
+  background-color: #e0e0e0;
+
+  color: #333;
+
+  padding: 0.5rem 1rem;
+
+  border-radius: 20px;
+
+  margin-right: 0.5rem;
+
+  margin-bottom: 0.5rem;
+
+  display: inline-block;
+
+}
+
+
+
+.history-item {
+
+  background-color: #f7f7f7;
+
+  padding: 1rem;
+
+  border-radius: 4px;
+
+  margin-bottom: 0.5rem;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+
+
+.form-profile .form-group {
+
+  margin-bottom: 1.5rem;
+
+}
+
+
+
+.form-profile .history-add-book {
+
+  display: flex;
+
+  gap: 1rem;
+
+  align-items: center;
+
+  margin-bottom: 1rem;
+
+}
+
+
+
+.form-profile .history-add-book select,
+
+.form-profile .history-add-book input {
+
+  flex-grow: 1;
+
 }

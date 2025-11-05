@@ -40,8 +40,15 @@ function UserFull() {
           <h2>Profile Details (NoSQL)</h2>
           {userData.profile ? (
             <>
-              <p>Bio: {userData.profile.bio}</p>
-              <p>Reading History: {JSON.stringify(userData.profile.readingHistory)}</p>
+              <p>Preferences: {userData.profile.preferences.join(', ')}</p>
+              <div>
+                <p>History:</p>
+                <ul>
+                  {userData.profile.history.map(item => (
+                    <li key={item.book}>{item.book} (read {item.rating} times)</li>
+                  ))}
+                </ul>
+              </div>
             </>
           ) : (
             <p>No profile found for this user.</p>

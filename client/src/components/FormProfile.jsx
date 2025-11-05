@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import API from "../api";
 
-const genres = ["Amour", "Drame", "Aventure", "Science-fiction", "Fantasy"];
+const genres = [
+  "Amour",
+  "Drame",
+  "Aventure",
+  "Science-fiction",
+  "Fantasy",
+  "Policier",
+  "Horreur",
+];
 
 function FormProfile({ onSubmit, initialData = {} }) {
   const [preferences, setPreferences] = useState(initialData.preferences || []);
@@ -33,7 +41,7 @@ function FormProfile({ onSubmit, initialData = {} }) {
   const handlePreferenceChange = (e) => {
     const { options } = e.target;
     const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
+    for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
         value.push(options[i].value);
       }
@@ -57,13 +65,16 @@ function FormProfile({ onSubmit, initialData = {} }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ preferences, history });
+    onSubmit({
+      preferences: Array.isArray(preferences) ? preferences : [preferences],
+      history,
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form-profile">
       <div className="form-group">
-        <label>Préférences (genres)</label>
+        <label>Préférences (plusieurs genres possibles)</label>
         <select multiple value={preferences} onChange={handlePreferenceChange}>
           {genres.map((genre) => (
             <option key={genre} value={genre}>
@@ -75,8 +86,11 @@ function FormProfile({ onSubmit, initialData = {} }) {
 
       <div className="form-group">
         <label>Historique de lecture</label>
-        <div>
-          <select value={selectedBook} onChange={(e) => setSelectedBook(e.target.value)}>
+        <div className="history-add-book">
+          <select
+            value={selectedBook}
+            onChange={(e) => setSelectedBook(e.target.value)}
+          >
             <option value="">-- Choisir un livre --</option>
             {books.map((book) => (
               <option key={book.id} value={book.title}>
@@ -90,15 +104,19 @@ function FormProfile({ onSubmit, initialData = {} }) {
             onChange={(e) => setRating(parseInt(e.target.value, 10))}
             min="0"
           />
-          <button type="button" onClick={handleAddBookToHistory}>
+          <button type="button" onClick={handleAddBookToHistory} className="btn">
             Ajouter
           </button>
         </div>
-        <ul>
+        <ul className="history-list">
           {history.map((item) => (
-            <li key={item.book}>
-              {item.book} (lu {item.rating} fois)
-              <button type="button" onClick={() => handleRemoveBookFromHistory(item.book)}>
+            <li key={item.book} className="history-item">
+              <span>{item.book} (lu {item.rating} fois)</span>
+              <button
+                type="button"
+                onClick={() => handleRemoveBookFromHistory(item.book)}
+                className="btn btn-danger"
+              >
                 X
               </button>
             </li>
